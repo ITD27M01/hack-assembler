@@ -55,7 +55,7 @@ upload: venv
 	@source $(VIRTUAL_ENV)/bin/activate
 	$(MAKE) clean
 	$(MAKE) sdist
-	@twine --username __token__ --password $(TWINE_PASSWORD) upload dist/*
+	@twine upload --username __token__ --password $(TWINE_PASSWORD) dist/*
 
 .PHONY: version
 version:
