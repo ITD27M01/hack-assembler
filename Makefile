@@ -4,9 +4,19 @@ SHELL = /bin/bash
 default: update
 
 VIRTUAL_ENV?=~/venv/hack-assembler
+TWINE_USERNAME=__token__
+
+venv:
+	@python3 -m venv $(VIRTUAL_ENV)
+
+.PHONY: init
+init: venv ## Initialize environment
+	@source venv/bin/activate
+	@pip install flake8
+	@pip install twine
 
 .PHONY: clean
-clean:
+clean: venv
 	@source $(VIRTUAL_ENV)/bin/activate
 	@python setup.py clean
 	@rm -rf dist
@@ -18,18 +28,18 @@ clean:
 	@pip uninstall hack-assembler -y
 
 .PHONY: check
-check:
+check: venv
 	@source $(VIRTUAL_ENV)/bin/activate
 	@pip -q install flake8
 	@flake8 --ignore=W605,E501 assembler
 
 .PHONY: install
-install:
+install: venv
 	@source $(VIRTUAL_ENV)/bin/activate
 	@python setup.py install
 
 .PHONY: update
-update:
+update: venv
 	@source $(VIRTUAL_ENV)/bin/activate
 	$(MAKE) clean
 	$(MAKE) check
@@ -37,13 +47,13 @@ update:
 	@clear
 
 .PHONY: sdist
-sdist:
+sdist: venv
 	@source $(VIRTUAL_ENV)/bin/activate
 	$(MAKE) clean
 	@python setup.py sdist
 
 .PHONY: upload
-upload:
+upload: venv
 	@source $(VIRTUAL_ENV)/bin/activate
 	$(MAKE) clean
 	$(MAKE) sdist
