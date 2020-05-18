@@ -3,7 +3,7 @@ SHELL = /bin/bash
 
 default: update
 
-VIRTUAL_ENV?=/Users/igor.tiunov/venv/hack-assembler
+VIRTUAL_ENV?=~/venv/hack-assembler
 
 .PHONY: clean
 clean:
@@ -15,7 +15,7 @@ clean:
 	@rm -rf .pytest_cache
 	@find . -name "*.pyc" -delete
 	@rm -rf assembler.egg-info
-	@pip uninstall assembler -y
+	@pip uninstall hack-assembler -y
 
 .PHONY: install
 install:
