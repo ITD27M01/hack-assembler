@@ -18,7 +18,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='assembler',
-    version='0.1.0',
+    version='0.1.1',
     author="itd27m01",
     author_email="igortiunov@gmail.com",
     description="nand2tetris hack assembler",
