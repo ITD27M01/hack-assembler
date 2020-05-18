@@ -12,8 +12,8 @@ venv:
 .PHONY: init
 init: venv ## Initialize environment
 	@source venv/bin/activate
-	@pip install flake8
-	@pip install twine
+	@pip -q install flake8
+	@pip -q install twine
 
 .PHONY: clean
 clean: venv
@@ -30,7 +30,6 @@ clean: venv
 .PHONY: check
 check: venv
 	@source $(VIRTUAL_ENV)/bin/activate
-	@pip -q install flake8
 	@flake8 --ignore=W605,E501 assembler
 
 .PHONY: install
