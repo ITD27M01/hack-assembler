@@ -76,7 +76,7 @@ default_symbols_table = {
     "R13": 13,
     "R14": 14,
     "R15": 15,
-    "SCREEN": 16385,
+    "SCREEN": 16384,
     "KBD": 24576
 }
 
