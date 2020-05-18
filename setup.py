@@ -17,15 +17,15 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name='assembler',
-    version='0.2.0',
+    name='hack-assembler',
+    version='0.2.1',
     author="itd27m01",
     author_email="igortiunov@gmail.com",
     description="nand2tetris hack assembler",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/ITD27M01/hack-assembler",
-    packages=['hack-assembler'],
+    packages=['assembler'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",
