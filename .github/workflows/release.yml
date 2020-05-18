@@ -1,8 +1,9 @@
 name: Release
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "**"
 
 jobs:
   build:
@@ -24,8 +25,14 @@ jobs:
     - name: Lint with flake8
       run: |
         make check
-    - name: Upload to pypi
-      env:
-        TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+    - name: Set version to pushed tag
       run: |
-        make upload
+        make version
+    - name: Is it sucessful?
+      run: |
+        cat setup.py
+#    - name: Upload to pypi
+#      env:
+#        TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+#      run: |
+#        make upload

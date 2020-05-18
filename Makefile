@@ -5,6 +5,7 @@ default: update
 
 VIRTUAL_ENV?=~/venv/hack-assembler
 TWINE_USERNAME=__token__
+GITHUB_REF?=refs/tags/0.1.0
 
 venv:
 	@python3 -m venv $(VIRTUAL_ENV)
@@ -57,3 +58,7 @@ upload: venv
 	$(MAKE) clean
 	$(MAKE) sdist
 	@twine upload dist/*
+
+.PHONY: version
+version:
+	@source .github/scripts/version.sh $(GITHUB_REF)
