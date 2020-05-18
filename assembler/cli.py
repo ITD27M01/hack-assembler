@@ -9,9 +9,11 @@ _log = logging.getLogger(name=__name__)
 def main():
     args = args_parser()
 
-    level = getattr(logging, args.log.upper(), None)
-    if not isinstance(level, int):
-        raise ValueError('Invalid log level: %s' % args.log)
+    if args.debug:
+        level = getattr(logging, 'DEBUG', None)
+    else:
+        level = getattr(logging, 'INFO', None)
+
     logging.basicConfig(level=level)
 
     parsed_code = parse(args.file)
