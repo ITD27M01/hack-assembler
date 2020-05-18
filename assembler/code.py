@@ -1,9 +1,12 @@
 import sys
 import logging
+from os.path import realpath as path_realpath
+from os.path import splitext as path_splitext
+
 from assembler.symbols import get_tables, comp_table, dest_table, jump_table
 
 _log = logging.getLogger(name='code')
-HACK_FILE_EXTENSION = 'hack'
+HACK_FILE_EXTENSION = '.hack'
 
 
 def _a_instruction(instruction, symbol_table, variable_table):
@@ -65,7 +68,8 @@ def assemble(parsed_code, file):
         elif instruction['type'] == 'C_INSTRUCTION':
             assembled_code.append(str(_c_instruction(instruction)))
 
-    hack_file = file.split('.')[0] + '.' + HACK_FILE_EXTENSION
+    hack_file = path_realpath(file)
+    hack_file = path_splitext(hack_file)[0] + HACK_FILE_EXTENSION
 
     _log.debug(f"Frite code to {hack_file}")
     with open(hack_file, "w") as hack_file_descriptor:

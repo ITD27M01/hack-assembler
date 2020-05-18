@@ -2,6 +2,7 @@ import sys
 import logging
 import re
 import string
+from os.path import realpath as path_realpath
 
 _log = logging.getLogger(name='parser')
 
@@ -37,7 +38,9 @@ def _instruction_type(instruction):
         raise ValueError(f"{instruction} is unknown")
 
 
-def parse(asm_file_path):
+def parse(asm_file):
+    asm_file_path = path_realpath(asm_file)
+
     parsed_code = list()
     try:
         with open(asm_file_path, "r") as assembly_file_descriptor:
