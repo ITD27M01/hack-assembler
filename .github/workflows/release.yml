@@ -21,7 +21,6 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        make venv
         make init
     - name: Lint with flake8
       run: |

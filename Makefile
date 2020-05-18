@@ -4,15 +4,13 @@ SHELL = /bin/bash
 default: update
 
 VIRTUAL_ENV?=~/venv/hack-assembler
-TWINE_USERNAME=__token__
-GITHUB_REF?=refs/tags/0.1.0
 
 venv:
 	@python3 -m venv $(VIRTUAL_ENV)
 
 .PHONY: init
 init: venv ## Initialize environment
-	@source venv/bin/activate
+	@source $(VIRTUAL_ENV)/bin/activate
 	@pip -q install flake8
 	@pip -q install twine
 
@@ -57,7 +55,7 @@ upload: venv
 	@source $(VIRTUAL_ENV)/bin/activate
 	$(MAKE) clean
 	$(MAKE) sdist
-	@twine upload dist/*
+	@twine --username __token__ --password $(TWINE_PASSWORD) upload dist/*
 
 .PHONY: version
 version:
