@@ -21,6 +21,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
+        make venv
         make init
     - name: Lint with flake8
       run: |
@@ -28,11 +29,8 @@ jobs:
     - name: Set version to pushed tag
       run: |
         make version
-    - name: Is it sucessful?
+    - name: Upload to pypi
+      env:
+        TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
       run: |
-        cat setup.py
-#    - name: Upload to pypi
-#      env:
-#        TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
-#      run: |
-#        make upload
+        make upload
