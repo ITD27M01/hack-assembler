@@ -24,7 +24,7 @@ setup(
     description="nand2tetris hack assembler",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://www.nand2tetris.org/project06",
+    url="https://github.com/ITD27M01/hack-assembler",
     packages=['assembler'],
     classifiers=[
         "Programming Language :: Python :: 3",
