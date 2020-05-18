@@ -14,8 +14,8 @@ _log = logging.getLogger(name=__name__)
 # group(2) of C instruction match returns computation specification
 # group(3) of C instruction match returns jump specification
 A_INSTRUCTION = re.compile("^@([0-9]+|[a-zA-Z_.$:]+[0-9a-zA-Z_.$:]*)$")
-C_INSTRUCTION = re.compile("^([AMD]=)*([AMD!\-+|&01]+)(;[JGTEQLNMP]*)*$")
-L_INSTRUCTION = re.compile("^\(([a-zA-Z_.$:]+[0-9a-zA-Z_.$:])*\)$")
+C_INSTRUCTION = re.compile("^([AMD]+=)*([AMD!\-+|&01]+)(;[JGTEQLNMP]*)*$")
+L_INSTRUCTION = re.compile("^\(([a-zA-Z_.$:]+[0-9a-zA-Z_.$:]*)*\)$")
 COMMENT = re.compile("//.*")
 
 
@@ -35,7 +35,7 @@ def _instruction_type(instruction):
         _log.debug(f"{instruction} is L (label) instruction")
         return {"type": "L_INSTRUCTION", "obj": match_instruction_object}
     else:
-        raise ValueError(f"{instruction} is unknown")
+        sys.exit(f"{instruction} is unknown")
 
 
 def parse(asm_file):
