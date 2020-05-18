@@ -81,7 +81,7 @@ default_symbols_table = {
 }
 
 
-def get_tables(parsed_code):
+def get_symbol_table(parsed_code):
     # Get list of label symbols
     label_instructions = list(filter(lambda instruction: instruction['type'] == 'L_INSTRUCTION', parsed_code))
     label_symbols = [instruction['obj'].group(1) for instruction in label_instructions]
@@ -101,7 +101,9 @@ def get_tables(parsed_code):
                     and not variable_symbol.isdigit() \
                     and variable_symbol not in default_symbols_table \
                     and variable_symbol not in variables_symbols_table:
-                variables_symbols_table[variable_symbol] = len(variables_symbols_table) + VARIABLES_START_ADDRESS
+                variable_address = len(variables_symbols_table) + VARIABLES_START_ADDRESS
+                _log.debug(f"Set address of {variable_symbol} to {variable_address}")
+                variables_symbols_table[variable_symbol] = variable_address
         elif instruction['type'] == 'C_INSTRUCTION':
             assembled_with_symbols_code.append(instruction)
         elif instruction['type'] == 'L_INSTRUCTION':
@@ -113,4 +115,4 @@ def get_tables(parsed_code):
 
     _log.debug(f"Labels symbols table: {labels_symbols_table}")
     _log.debug(f"Variables symbols table: {variables_symbols_table}")
-    return labels_symbols_table, variables_symbols_table
+    return {**labels_symbols_table, **variables_symbols_table}

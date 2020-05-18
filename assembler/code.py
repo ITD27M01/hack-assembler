@@ -3,13 +3,13 @@ import logging
 from os.path import realpath as path_realpath
 from os.path import splitext as path_splitext
 
-from assembler.symbols import get_tables, comp_table, dest_table, jump_table
+from assembler.symbols import get_symbol_table, comp_table, dest_table, jump_table
 
 _log = logging.getLogger(name=__name__)
 HACK_FILE_EXTENSION = '.hack'
 
 
-def _a_instruction(instruction, symbol_table, variable_table):
+def _a_instruction(instruction, symbol_table):
     address = instruction['obj'].group(1)
 
     _log.debug(f"Produce @{address} code")
@@ -17,7 +17,7 @@ def _a_instruction(instruction, symbol_table, variable_table):
         address = int(address)
         return '{0:016b}'.format(address)
     except ValueError:
-        address = symbol_table.get(address, variable_table.get(address))
+        address = symbol_table[address]
         address = int(address)
         return '{0:016b}'.format(address)
 
@@ -59,12 +59,12 @@ def _c_instruction(instruction):
 
 
 def assemble(parsed_code, file):
-    symbol_table, variable_table = get_tables(parsed_code)
+    symbol_table = get_symbol_table(parsed_code)
 
     assembled_code = list()
     for instruction in parsed_code:
         if instruction['type'] == 'A_INSTRUCTION':
-            assembled_code.append(str(_a_instruction(instruction, symbol_table, variable_table)))
+            assembled_code.append(str(_a_instruction(instruction, symbol_table)))
         elif instruction['type'] == 'C_INSTRUCTION':
             assembled_code.append(str(_c_instruction(instruction)))
 

@@ -14,7 +14,7 @@ clean:
 	@rm -rf build
 	@rm -rf .pytest_cache
 	@find . -name "*.pyc" -delete
-	@rm -rf assembler.egg-info
+	@rm -rf *.egg-info
 	@pip uninstall hack-assembler -y
 
 .PHONY: install
