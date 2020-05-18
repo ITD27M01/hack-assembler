@@ -17,6 +17,12 @@ clean:
 	@rm -rf *.egg-info
 	@pip uninstall hack-assembler -y
 
+.PHONY: check
+check:
+	@source $(VIRTUAL_ENV)/bin/activate
+	@pip -q install flake8
+	@flake8 --ignore=W605,E501 assembler
+
 .PHONY: install
 install:
 	@source $(VIRTUAL_ENV)/bin/activate
@@ -26,11 +32,19 @@ install:
 update:
 	@source $(VIRTUAL_ENV)/bin/activate
 	$(MAKE) clean
+	$(MAKE) check
 	$(MAKE) install
 	@clear
 
-.PHONY: check
-check:
+.PHONY: sdist
+sdist:
 	@source $(VIRTUAL_ENV)/bin/activate
-	@pip -q install pycodestyle
-	@pycodestyle --ignore=W605,E501 assembler
+	$(MAKE) clean
+	@python setup.py sdist
+
+.PHONY: upload
+upload:
+	@source $(VIRTUAL_ENV)/bin/activate
+	$(MAKE) clean
+	$(MAKE) sdist
+	@twine upload dist/*
