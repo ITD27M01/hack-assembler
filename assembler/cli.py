@@ -3,7 +3,7 @@ from assembler.arguments import args_parser
 from assembler.parser import parse
 from assembler.code import assemble
 
-_log = logging.getLogger(name='main')
+_log = logging.getLogger(name=__name__)
 
 
 def main():

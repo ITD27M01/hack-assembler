@@ -4,7 +4,7 @@ import re
 import string
 from os.path import realpath as path_realpath
 
-_log = logging.getLogger(name='parser')
+_log = logging.getLogger(name=__name__)
 
 # Regexps for Hack instructions
 #

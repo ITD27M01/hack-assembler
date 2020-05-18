@@ -1,6 +1,6 @@
 import logging
 
-_log = logging.getLogger(name='symbols')
+_log = logging.getLogger(name=__name__)
 
 comp_table = {
     "0": "0101010",
@@ -91,12 +91,8 @@ def get_tables(parsed_code):
     assembled_with_symbols_code = list()
     labels_symbols_table = dict(default_symbols_table)
     variables_symbols_table = dict()
+    current_address = 0
     for instruction in parsed_code:
-        if len(assembled_with_symbols_code) == 0:
-            current_address = 0
-        else:
-            current_address = len(assembled_with_symbols_code) - 1
-
         if instruction['type'] == 'A_INSTRUCTION':
             assembled_with_symbols_code.append(instruction)
             variable_symbol = instruction['obj'].group(1)
@@ -109,7 +105,11 @@ def get_tables(parsed_code):
         elif instruction['type'] == 'C_INSTRUCTION':
             assembled_with_symbols_code.append(instruction)
         elif instruction['type'] == 'L_INSTRUCTION':
-            labels_symbols_table[instruction['obj'].group(1)] = current_address
+            label = instruction['obj'].group(1)
+            _log.debug(f"Set address of {label} to {current_address}")
+            labels_symbols_table[label] = current_address
+
+        current_address = len(assembled_with_symbols_code)
 
     _log.debug(f"Labels symbols table: {labels_symbols_table}")
     _log.debug(f"Variables symbols table: {variables_symbols_table}")

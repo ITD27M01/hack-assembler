@@ -5,7 +5,7 @@ from os.path import splitext as path_splitext
 
 from assembler.symbols import get_tables, comp_table, dest_table, jump_table
 
-_log = logging.getLogger(name='code')
+_log = logging.getLogger(name=__name__)
 HACK_FILE_EXTENSION = '.hack'
 
 
@@ -71,7 +71,7 @@ def assemble(parsed_code, file):
     hack_file = path_realpath(file)
     hack_file = path_splitext(hack_file)[0] + HACK_FILE_EXTENSION
 
-    _log.debug(f"Frite code to {hack_file}")
+    _log.debug(f"Write code to {hack_file}")
     with open(hack_file, "w") as hack_file_descriptor:
         for instruction in assembled_code:
             hack_file_descriptor.write(f"{instruction}\n")
