@@ -11,8 +11,7 @@ venv:
 .PHONY: init
 init: venv ## Initialize environment
 	@source $(VIRTUAL_ENV)/bin/activate
-	@pip -q install flake8
-	@pip -q install twine
+	@pip -q install flake8 twine pytest-mock
 
 .PHONY: clean
 clean: venv
@@ -30,6 +29,13 @@ clean: venv
 check: venv
 	@source $(VIRTUAL_ENV)/bin/activate
 	@flake8 --ignore=W605,E501 assembler
+
+.PHONY: tests
+tests: venv
+	@source $(VIRTUAL_ENV)/bin/activate
+	$(MAKE) clean
+	$(MAKE) install
+	@pytest
 
 .PHONY: install
 install: venv
