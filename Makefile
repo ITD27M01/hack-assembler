@@ -33,6 +33,8 @@ check: venv
 .PHONY: tests
 tests: venv
 	@source $(VIRTUAL_ENV)/bin/activate
+	$(MAKE) clean
+	$(MAKE) install
 	@pytest
 
 .PHONY: install
