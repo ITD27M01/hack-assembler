@@ -1,12 +1,30 @@
-name: release
+name: release_workflow
 
 on:
-  create
+  push:
+    branches:
+      - master
 
 jobs:
-  build:
-
+  semver:
     runs-on: ubuntu-latest
+    steps:
+    - id: checkout
+      uses: actions/checkout@master
+      with:
+        fetch-depth: '0'
+    - id: set_version
+      uses: anothrNick/github-tag-action@1.17.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: false
+        RELEASE_BRANCHES: master
+    outputs:
+      new_tag: ${{ steps.set_version.outputs.new_tag }}
+
+  release:
+    runs-on: ubuntu-latest
+    needs: semver
     strategy:
       matrix:
         python-version: [3.8]
@@ -20,13 +38,9 @@ jobs:
     - name: Install dependencies
       run: |
         make init
-    - name: Lint with flake8
-      run: |
-        make check
-    - name: Unit tests with pytest
-      run: |
-        make tests
     - name: Set version to pushed tag
+      env:
+        HACK_ASSEMBLER_VERSION: ${{ needs.semver.outputs.new_tag }}
       run: |
         make version
     - name: Upload to pypi
@@ -34,5 +48,3 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
       run: |
         make upload
-
-    if: contains(github.ref, 'refs/tags/')
