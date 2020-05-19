@@ -65,4 +65,4 @@ upload: venv
 
 .PHONY: version
 version:
-	@source .github/scripts/version.sh $(GITHUB_REF)
+	@source .github/scripts/version.sh $(HACK_ASSEMBLER_VERSION)
