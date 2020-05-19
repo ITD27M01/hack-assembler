@@ -13,9 +13,9 @@ _log = logging.getLogger(name=__name__)
 # group(1) of C instruction match returns destination specification
 # group(2) of C instruction match returns computation specification
 # group(3) of C instruction match returns jump specification
-A_INSTRUCTION = re.compile("^@([0-9]+|[a-zA-Z_.$:]+[0-9a-zA-Z_.$:]*)$")
-C_INSTRUCTION = re.compile("^([AMD]+=)*([AMD!\-+|&01]+)(;[JGTEQLNMP]*)*$")
-L_INSTRUCTION = re.compile("^\(([a-zA-Z_.$:]+[0-9a-zA-Z_.$:]*)*\)$")
+A_INSTRUCTION = re.compile(r"^@([0-9]+|[a-zA-Z_.$:]+[0-9a-zA-Z_.$:]*)$")
+C_INSTRUCTION = re.compile(r"^([AMD]+=)*([AMD!\-+|&01]+)(;[JGTEQLNMP]*)*$")
+L_INSTRUCTION = re.compile(r"^\(([a-zA-Z_.$:]+[0-9a-zA-Z_.$:]*)*\)$")
 COMMENT = re.compile("//.*")
 
 
@@ -38,10 +38,13 @@ def _instruction_type(instruction):
         sys.exit(f"{instruction} is unknown")
 
 
-def parse(asm_file):
-    asm_file_path = path_realpath(asm_file)
-
-    parsed_code = list()
+def _cleanup_code(asm_file_path):
+    """
+    Reads asm file and constructs list of instruction
+    :param asm_file_path: path to asm file
+    :return: List of strings represent instruction
+    """
+    cleared_code = list()
     try:
         with open(asm_file_path, "r") as assembly_file_descriptor:
             _log.debug(f"Start to process {asm_file_path}")
@@ -50,10 +53,37 @@ def parse(asm_file):
                 instruction = _cleanup_instruction(instruction)
                 if instruction:
                     # If not empty string or comment let's parse it
-                    parsed_code.append(_instruction_type(instruction))
+                    cleared_code.append(instruction)
 
                 instruction = assembly_file_descriptor.readline()
 
-        return parsed_code
+        return cleared_code
     except FileNotFoundError:
         sys.exit(f"File {asm_file_path} not found.")
+
+
+def _get_path(asm_file):
+    """
+    Returns full path of assemble file
+    :param asm_file: Relative path or name of asm file
+    :return: path: Full path to file
+    """
+    return path_realpath(asm_file)
+
+
+def parse(asm_file):
+    """
+    Reads the instruction list and constructs list of objects
+    with fields: type (the type of instruction) and obj
+    (re match object)
+    :param asm_file:
+    :return: parsed code for translating
+    """
+    asm_file_path = _get_path(asm_file)
+    cleared_code = _cleanup_code(asm_file_path)
+
+    parsed_code = list()
+    for instruction in cleared_code:
+        parsed_code.append(_instruction_type(instruction))
+
+    return parsed_code

@@ -58,6 +58,22 @@ def _c_instruction(instruction):
     return header + comp_field + dest_field + jump_field
 
 
+def _write_hack_code(assembled_code, file):
+    """
+    Write binary code to hack file
+    :param assembled_code: Binary code list
+    :param file: The path to original asm file
+    :return: None
+    """
+    hack_file = path_realpath(file)
+    hack_file = path_splitext(hack_file)[0] + HACK_FILE_EXTENSION
+
+    _log.debug(f"Write code to {hack_file}")
+    with open(hack_file, "w") as hack_file_descriptor:
+        for instruction in assembled_code:
+            hack_file_descriptor.write(f"{instruction}\n")
+
+
 def assemble(parsed_code, file):
     symbol_table = get_symbol_table(parsed_code)
 
@@ -68,12 +84,6 @@ def assemble(parsed_code, file):
         elif instruction['type'] == 'C_INSTRUCTION':
             assembled_code.append(str(_c_instruction(instruction)))
 
-    hack_file = path_realpath(file)
-    hack_file = path_splitext(hack_file)[0] + HACK_FILE_EXTENSION
-
-    _log.debug(f"Write code to {hack_file}")
-    with open(hack_file, "w") as hack_file_descriptor:
-        for instruction in assembled_code:
-            hack_file_descriptor.write(f"{instruction}\n")
+    _write_hack_code(assembled_code, file)
 
     return assembled_code
