@@ -1,9 +1,10 @@
 from logging import getLogger
 from sys import exit
-from os.path import realpath
+from os.path import realpath, splitext
 
 
 _log = getLogger(name=__name__)
+HACK_FILE_EXTENSION = '.hack'
 
 
 def get_code(asm_file):
@@ -26,3 +27,19 @@ def get_code(asm_file):
         return dirty_code
     except FileNotFoundError:
         exit(f"File {asm_file_path} not found.")
+
+
+def write_code(assembled_code, file):
+    """
+    Write binary code to hack file
+    :param assembled_code: Binary code list
+    :param file: Original asm file name
+    :return: None
+    """
+    hack_file = realpath(file)
+    hack_file = splitext(hack_file)[0] + HACK_FILE_EXTENSION
+
+    _log.debug(f"Write code to {hack_file}")
+    with open(hack_file, "w") as hack_file_descriptor:
+        for instruction in assembled_code:
+            hack_file_descriptor.write(f"{instruction}\n")
