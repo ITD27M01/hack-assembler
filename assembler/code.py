@@ -57,7 +57,7 @@ def _c_instruction(instruction):
     return header + comp_field + dest_field + jump_field
 
 
-def assemble(parsed_code, file):
+def assemble(parsed_code, file, dry_run):
     symbol_table = get_symbol_table(parsed_code)
 
     assembled_code = list()
@@ -67,6 +67,7 @@ def assemble(parsed_code, file):
         elif instruction['type'] == 'C_INSTRUCTION':
             assembled_code.append(str(_c_instruction(instruction)))
 
-    write_code(assembled_code, file)
+    if not dry_run:
+        write_code(assembled_code, file)
 
     return assembled_code

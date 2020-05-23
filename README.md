@@ -9,7 +9,7 @@
 With `--debug` option you can see full assemble proccess:
 
 ```text
-> hasm /Users/igor.tiunov/Documents/nand2tetris/projects/06/Add.asm --debug
+> hasm /Users/igor.tiunov/Documents/nand2tetris/projects/06/Add.asm --debug --dry-run
 DEBUG:assembler.parser:Start to process /Users/igor.tiunov/Documents/nand2tetris/projects/06/Add.asm
 DEBUG:assembler.parser:@2 is A instruction
 DEBUG:assembler.parser:D=A is C instruction
