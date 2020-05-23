@@ -19,7 +19,7 @@ def main():
     parsed_code = parse(args.file)
     _log.debug(f"parsed code: {parsed_code}")
 
-    assembled_code = assemble(parsed_code, args.file)
+    assembled_code = assemble(parsed_code, args.file, args.dry_run)
     _log.debug(f"assembled code: {assembled_code}")
 
 

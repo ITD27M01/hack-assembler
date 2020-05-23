@@ -13,7 +13,6 @@ def get_code(asm_file):
     :param asm_file: asm file name
     :return: List of strings represent instruction
     """
-    # (TODO): Move files operatoins to utils module
     asm_file_path = realpath(asm_file)
     dirty_code = list()
     try:
