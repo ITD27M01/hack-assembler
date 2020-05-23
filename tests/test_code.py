@@ -30,7 +30,7 @@ HACK_CODE = ['1111110010101000', '0000000000010000', '0000000000000000', '111010
 
 
 def test_code(mocker):
-    mocker.patch.object(code, '_write_hack_code')
-    code._write_hack_code.return_value = None
+    mocker.patch.object(code, 'write_code')
+    code.write_code.return_value = None
 
     assert code.assemble(PARSED_CODE, None) == HACK_CODE
