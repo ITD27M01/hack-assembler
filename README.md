@@ -4,12 +4,12 @@
 
 [nand2tetris project6](https://www.nand2tetris.org/project06)
 
-    assembler Prog.asm
+    hasm Prog.asm
 
 With `--debug` option you can see full assemble proccess:
 
 ```text
-> assembler /Users/igor.tiunov/Documents/nand2tetris/projects/06/Add.asm --debug
+> hasm /Users/igor.tiunov/Documents/nand2tetris/projects/06/Add.asm --debug
 DEBUG:assembler.parser:Start to process /Users/igor.tiunov/Documents/nand2tetris/projects/06/Add.asm
 DEBUG:assembler.parser:@2 is A instruction
 DEBUG:assembler.parser:D=A is C instruction

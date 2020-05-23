@@ -2,4 +2,5 @@
 *.hack
 build
 *.egg-info
+.eggs
 dist
