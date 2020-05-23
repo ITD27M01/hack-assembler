@@ -23,6 +23,7 @@ clean: venv
 	@rm -rf .pytest_cache
 	@find . -name "*.pyc" -delete
 	@rm -rf *.egg-info
+	@rm -rf .eggs
 	@pip uninstall hack-assembler -y
 
 .PHONY: check
@@ -62,7 +63,3 @@ upload: venv
 	$(MAKE) clean
 	$(MAKE) sdist
 	@twine upload --username __token__ --password $(TWINE_PASSWORD) dist/*
-
-.PHONY: version
-version:
-	@source .github/scripts/version.sh $(HACK_ASSEMBLER_VERSION)

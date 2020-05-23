@@ -44,6 +44,7 @@ def _cleanup_code(asm_file_path):
     :param asm_file_path: path to asm file
     :return: List of strings represent instruction
     """
+    # (TODO): Move files operatoins to utils module
     cleared_code = list()
     try:
         with open(asm_file_path, "r") as assembly_file_descriptor:
