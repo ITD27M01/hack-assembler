@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -13,27 +14,7 @@
 
 from setuptools import setup
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
-
 setup(
-    name='hack-assembler',
-    version='VERSION',
-    author="itd27m01",
-    author_email="igortiunov@gmail.com",
-    description="nand2tetris hack assembler",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    url="https://github.com/ITD27M01/hack-assembler",
-    packages=['assembler'],
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: Apache Software License",
-        "Operating System :: OS Independent",
-    ],
-    python_requires=">=3.8",
-    entry_points='''
-        [console_scripts]
-        assembler=assembler.cli:main
-    '''
+    setup_requires=['pbr'],
+    pbr=True,
 )
