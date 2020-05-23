@@ -2,7 +2,7 @@ import sys
 import logging
 import re
 import string
-from os.path import realpath as path_realpath
+from assembler.utils import get_code
 
 _log = logging.getLogger(name=__name__)
 
@@ -38,38 +38,20 @@ def _instruction_type(instruction):
         sys.exit(f"{instruction} is unknown")
 
 
-def _cleanup_code(asm_file_path):
+def _cleanup_code(asm_file):
     """
     Reads asm file and constructs list of instruction
-    :param asm_file_path: path to asm file
+    :param asm_file: asm file name
     :return: List of strings represent instruction
     """
-    # (TODO): Move files operatoins to utils module
+    dirty_code = get_code(asm_file)
     cleared_code = list()
-    try:
-        with open(asm_file_path, "r") as assembly_file_descriptor:
-            _log.debug(f"Start to process {asm_file_path}")
-            instruction = assembly_file_descriptor.readline()
-            while instruction:
-                instruction = _cleanup_instruction(instruction)
-                if instruction:
-                    # If not empty string or comment let's parse it
-                    cleared_code.append(instruction)
+    for instruction in dirty_code:
+        instruction = _cleanup_instruction(instruction)
+        if instruction:
+            cleared_code.append(instruction)
 
-                instruction = assembly_file_descriptor.readline()
-
-        return cleared_code
-    except FileNotFoundError:
-        sys.exit(f"File {asm_file_path} not found.")
-
-
-def _get_path(asm_file):
-    """
-    Returns full path of assemble file
-    :param asm_file: Relative path or name of asm file
-    :return: path: Full path to file
-    """
-    return path_realpath(asm_file)
+    return cleared_code
 
 
 def parse(asm_file):
@@ -80,8 +62,7 @@ def parse(asm_file):
     :param asm_file:
     :return: parsed code for translating
     """
-    asm_file_path = _get_path(asm_file)
-    cleared_code = _cleanup_code(asm_file_path)
+    cleared_code = _cleanup_code(asm_file)
 
     parsed_code = list()
     for instruction in cleared_code:
